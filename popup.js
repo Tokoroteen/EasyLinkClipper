@@ -40,4 +40,30 @@ document.addEventListener('DOMContentLoaded', () => {
       chrome.storage.sync.set({ elcButtonColor: input.value }, notifyContentScript);
     });
   });
+  
+  // デフォルト設定リセット
+  const resetButton = document.getElementById('elc-reset-defaults');
+  resetButton.addEventListener('click', () => {
+    if (confirm('Reset all settings to default values. Are you sure?')) {
+      const defaultSettings = {
+        elcShowLink: true,
+        elcShowTitleLink: true,
+        elcShowPattern: 'articles',
+        elcUrlExtract: '^(.+/articles/\\d+)',
+        elcButtonColor: 'default'
+      };
+      
+      chrome.storage.sync.set(defaultSettings, () => {
+        // UIを更新
+        toggleLink.checked = defaultSettings.elcShowLink;
+        toggleTitleLink.checked = defaultSettings.elcShowTitleLink;
+        patternInput.value = defaultSettings.elcShowPattern;
+        urlExtractInput.value = defaultSettings.elcUrlExtract;
+        document.getElementById('elc-color-default').checked = true;
+        
+        // コンテンツスクリプトに通知
+        notifyContentScript();
+      });
+    }
+  });
 });
