@@ -1,0 +1,106 @@
+body .elc-copy-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  margin-left: 8px !important;
+  padding: 2px 8px !important;
+  font-size: 14px !important;
+  background: #f5f5f7 !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  color: #333 !important;
+  cursor: pointer !important;
+  transition: background 0.2s, border 0.2s !important;
+  outline: none !important;
+  user-select: none !important;
+  position: relative !important;
+  vertical-align: middle !important;
+}
+body .elc-copy-btn:hover {
+  background: #e0e7ef !important;
+  border-color: #a5b4fc !important;
+}
+body .elc-copy-btn:active {
+  background: #c7d2fe !important;
+}
+body .elc-copy-btn.elc-copied {
+  color: #16a34a !important;
+  border-color: #16a34a !important;
+  background: #f0fdf4 !important;
+}
+
+/* ボタンカラーのプリセット */
+body .elc-copy-btn.elc-color-blue {
+  background: #A2C2D0 !important;
+  border-color: #8BA8B8 !important;
+  color: #fff !important;
+}
+body .elc-copy-btn.elc-color-blue:hover {
+  background: #8BA8B8 !important;
+  border-color: #7A97A6 !important;
+}
+body .elc-copy-btn.elc-color-green {
+  background: #B0C2A7 !important;
+  border-color: #9DB396 !important;
+  color: #fff !important;
+}
+body .elc-copy-btn.elc-color-green:hover {
+  background: #9DB396 !important;
+  border-color: #8AA485 !important;
+}
+body .elc-copy-btn.elc-color-gray {
+  background: #6b7280 !important;
+  border-color: #4b5563 !important;
+  color: #fff !important;
+}
+body .elc-copy-btn.elc-color-gray:hover {
+  background: #4b5563 !important;
+  border-color: #374151 !important;
+}
+body .elc-copy-btn.elc-color-pink {
+  background: #F2A9A9 !important;
+  border-color: #E89B9B !important;
+  color: #fff !important;
+}
+body .elc-copy-btn.elc-color-pink:hover {
+  background: #E89B9B !important;
+  border-color: #DE8D8D !important;
+}
+body .elc-copy-btn.elc-color-yellow {
+  background: #D8C28A !important;
+  border-color: #C4B07A !important;
+  color: #fff !important;
+}
+body .elc-copy-btn.elc-color-yellow:hover {
+  background: #C4B07A !important;
+  border-color: #B09E6A !important;
+}
+
+.elc-toast {
+  position: fixed !important;
+  left: 50% !important;
+  top: 33vh !important;
+  bottom: unset !important;
+  min-width: 180px !important;
+  max-width: 80vw !important;
+  background: #f5f5f7 !important;
+  color: #333 !important;
+  font-size: 14px !important;
+  font-family: inherit !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10) !important;
+  padding: 10px 18px !important;
+  z-index: 2147483647 !important;
+  text-align: center !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+  transition: opacity 0.3s !important;
+  transform: translateX(-50%) !important;
+}
+.elc-toast span {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: #16a34a;
+  word-break: break-all;
+}

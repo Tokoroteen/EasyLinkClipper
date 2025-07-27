@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EasyLinkClipper Settings</title>
+  <style>
+    body { font-family: sans-serif; margin: 16px; min-width: 320px; min-height: 260px; }
+    label { cursor: pointer; display: block; margin-bottom: 8px; }
+    .desc { font-size: 12px; color: #555; margin-bottom: 12px; }
+    input[type="text"] { width: 100%; box-sizing: border-box; margin-bottom: 8px; }
+    h2 { font-size: 1.1em; margin: 18px 0 8px 0; }
+    .section { margin-bottom: 18px; }
+    .color-options { display: flex; gap: 8px; margin-bottom: 8px; }
+    .color-option { display: flex; align-items: center; }
+    .color-option input[type="radio"] { margin-right: 4px; }
+    .color-preview { width: 16px; height: 16px; border-radius: 2px; margin-right: 4px; border: 1px solid #d1d5db; }
+    .info-tooltip {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      margin-left: 4px;
+      color: #3b82f6;
+      font-size: 1em;
+      vertical-align: middle;
+    }
+    .info-tooltip .tooltip-text {
+      visibility: hidden;
+      opacity: 0;
+      width: 260px;
+      background: #222;
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 8px 10px;
+      position: absolute;
+      z-index: 10;
+      top: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: opacity 0.2s;
+      font-size: 12px;
+      pointer-events: none;
+    }
+    .info-tooltip:focus .tooltip-text,
+    .info-tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="section">
+    <h2>Button Display Condition</h2>
+    <label style="font-weight:normal;">
+      <span>Show buttons only if the page URL matches this regular expression</span>
+      <span class="info-tooltip" tabindex="0" aria-label="Show explanation">
+        &#8505;
+        <span class="tooltip-text">If blank, buttons are always shown. If you enter a regular expression, buttons will only appear on pages whose URL matches it.<br>Example: <code>articles</code> → Only show on pages whose URL contains "articles"</span>
+      </span>
+    </label>
+    <input type="text" id="elc-show-pattern" placeholder="e.g. articles">
+  </div>
+  <div class="section">
+    <h2>URL Extract Pattern</h2>
+    <label style="font-weight:normal;">
+      <span>Extract Pattern (RegExp):</span>
+      <span class="info-tooltip" tabindex="0" aria-label="Show explanation">
+        &#8505;
+        <span class="tooltip-text">If blank, the full page URL will be copied. If you enter a regular expression with parentheses, only the part matched by the first group will be copied.<br>Example: <code>^(.+/articles/\d+)</code> → Only <code>https://.../articles/numbers</code> part will be copied.<br><b>If the pattern does not match, the full URL will be copied.</b></span>
+      </span>
+    </label>
+    <input type="text" id="elc-url-extract" placeholder="e.g. ^(.+/articles/\d+)">
+  </div>
+  <div class="section">
+    <h2>Button Color</h2>
+    <div class="color-options">
+      <label class="color-option">
+        <input type="radio" name="elc-button-color" value="default" id="elc-color-default">
+        <div class="color-preview" style="background: #f5f5f7;"></div>
+        Default
+      </label>
+      <label class="color-option">
+        <input type="radio" name="elc-button-color" value="blue" id="elc-color-blue">
+        <div class="color-preview" style="background: #A2C2D0;"></div>
+        Blue
+      </label>
+      <label class="color-option">
+        <input type="radio" name="elc-button-color" value="green" id="elc-color-green">
+        <div class="color-preview" style="background: #B0C2A7;"></div>
+        Green
+      </label>
+      <label class="color-option">
+        <input type="radio" name="elc-button-color" value="pink" id="elc-color-pink">
+        <div class="color-preview" style="background: #F2A9A9;"></div>
+        Pink
+      </label>
+      <label class="color-option">
+        <input type="radio" name="elc-button-color" value="yellow" id="elc-color-yellow">
+        <div class="color-preview" style="background: #D8C28A;"></div>
+        Yellow
+      </label>
+      <label class="color-option">
+        <input type="radio" name="elc-button-color" value="gray" id="elc-color-gray">
+        <div class="color-preview" style="background: #6b7280;"></div>
+        Gray
+      </label>
+    </div>
+  </div>
+  <div class="section">
+    <h2>Buttons to Display</h2>
+    <label>
+      <input type="checkbox" id="elc-toggle-link">
+      Show "Copy link" button
+    </label>
+    <label>
+      <input type="checkbox" id="elc-toggle-titlelink">
+      Show "Copy title & link" button
+    </label>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

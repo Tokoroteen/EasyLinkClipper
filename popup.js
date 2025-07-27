@@ -1,0 +1,43 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleLink = document.getElementById('elc-toggle-link');
+  const toggleTitleLink = document.getElementById('elc-toggle-titlelink');
+  const patternInput = document.getElementById('elc-show-pattern');
+  const urlExtractInput = document.getElementById('elc-url-extract');
+  const colorInputs = document.querySelectorAll('input[name="elc-button-color"]');
+  // 設定を復元
+  chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\d+)', elcButtonColor: 'default' }, (items) => {
+    toggleLink.checked = items.elcShowLink;
+    toggleTitleLink.checked = items.elcShowTitleLink;
+    patternInput.value = items.elcShowPattern || '';
+    urlExtractInput.value = items.elcUrlExtract || '';
+    // ボタンカラーの復元
+    const selectedColor = items.elcButtonColor || 'default';
+    document.getElementById(`elc-color-${selectedColor}`).checked = true;
+  });
+  // 変更時に保存＋アクティブタブに通知
+  function notifyContentScript() {
+    chrome.tabs && chrome.tabs.query && chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+      if (tabs[0] && tabs[0].id) {
+        chrome.tabs.sendMessage(tabs[0].id, { type: 'elc-setting-changed' });
+      }
+    });
+  }
+  toggleLink.addEventListener('change', () => {
+    chrome.storage.sync.set({ elcShowLink: toggleLink.checked }, notifyContentScript);
+  });
+  toggleTitleLink.addEventListener('change', () => {
+    chrome.storage.sync.set({ elcShowTitleLink: toggleTitleLink.checked }, notifyContentScript);
+  });
+  patternInput.addEventListener('input', () => {
+    chrome.storage.sync.set({ elcShowPattern: patternInput.value }, notifyContentScript);
+  });
+  urlExtractInput.addEventListener('input', () => {
+    chrome.storage.sync.set({ elcUrlExtract: urlExtractInput.value }, notifyContentScript);
+  });
+  // ボタンカラーの変更
+  colorInputs.forEach(input => {
+    input.addEventListener('change', () => {
+      chrome.storage.sync.set({ elcButtonColor: input.value }, notifyContentScript);
+    });
+  });
+});

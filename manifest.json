@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "EasyLinkClipper",
+  "version": "1.0.0",
+  "description": "Adds copy buttons next to the page title, allowing you to easily copy the URL or the title + URL to the clipboard.",
+  "permissions": ["clipboardWrite", "storage", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}
