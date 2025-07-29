@@ -26,7 +26,8 @@
     .info-tooltip .tooltip-text {
       visibility: hidden;
       opacity: 0;
-      width: 260px;
+      width: 200px;
+      max-width: calc(300px - 20px);
       background: #222;
       color: #fff;
       text-align: left;
@@ -40,6 +41,13 @@
       transition: opacity 0.2s;
       font-size: 12px;
       pointer-events: none;
+      box-sizing: border-box;
+    }
+    /* 右端に近い場合は右寄せ */
+    .section:last-of-type .info-tooltip .tooltip-text {
+      left: auto;
+      right: 0;
+      transform: none;
     }
     .info-tooltip:focus .tooltip-text,
     .info-tooltip:hover .tooltip-text {

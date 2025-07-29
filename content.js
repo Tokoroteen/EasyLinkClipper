@@ -29,7 +29,7 @@
       if (msg && msg.type === 'elc-setting-changed') {
         // 設定を再取得して反映
         if (chrome.storage && chrome.storage.sync) {
-          chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\d+)', elcButtonColor: 'default' }, (items) => {
+          chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\\d+)', elcButtonColor: 'default' }, (items) => {
             elcShowLink = items.elcShowLink;
             elcShowTitleLink = items.elcShowTitleLink;
             elcShowPattern = items.elcShowPattern || '';
@@ -137,7 +137,7 @@
   // 初期設定取得→ボタン挿入
   function init() {
     if (chrome.storage && chrome.storage.sync) {
-      chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\d+)', elcButtonColor: 'default' }, (items) => {
+      chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\\d+)', elcButtonColor: 'default' }, (items) => {
         elcShowLink = items.elcShowLink;
         elcShowTitleLink = items.elcShowTitleLink;
         elcShowPattern = items.elcShowPattern || '';

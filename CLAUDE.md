@@ -42,6 +42,13 @@ This extension has no build process - it uses vanilla JavaScript. To develop:
 3. Reload the extension in Chrome extensions page after changes
 4. Test on pages matching the URL pattern (contains "articles" by default)
 
+### Testing
+
+- **Test Page**: Use `test.html` for local testing without needing real web pages
+- **Manual Testing**: Test on any page containing "articles" in the URL (or modify pattern in settings)
+- **Settings Testing**: Open popup via extension icon to test configuration changes
+- **Real-time Updates**: Settings changes are immediately reflected without page reload
+
 ## Configuration Defaults
 
 The extension initializes with these default settings:
@@ -57,3 +64,15 @@ The extension initializes with these default settings:
 - DOM mutation observer not used - relies on DOMContentLoaded and manual refresh
 - All styles use `!important` to override site CSS
 - Toast positioning uses fixed positioning at 33vh from top
+
+### Message Communication
+
+- **Storage Sync**: Uses `chrome.storage.sync` for settings persistence across devices
+- **Runtime Messages**: Popup sends `elc-setting-changed` messages to content script for instant updates
+- **Storage Events**: Content script listens to `chrome.storage.onChanged` for cross-tab synchronization
+
+### Error Handling
+
+- Invalid regex patterns are caught and handled gracefully
+- Chrome API availability checks prevent errors in non-extension contexts
+- Message passing includes error handling for inactive tabs
