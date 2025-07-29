@@ -18,7 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function notifyContentScript() {
     chrome.tabs && chrome.tabs.query && chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
       if (tabs[0] && tabs[0].id) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: 'elc-setting-changed' });
+        chrome.tabs.sendMessage(tabs[0].id, { type: 'elc-setting-changed' }, (response) => {
+          // エラーを無視（content scriptがない場合など）
+          if (chrome.runtime.lastError) {
+            // エラーをクリアするために何もしない
+          }
+        });
       }
     });
   }
