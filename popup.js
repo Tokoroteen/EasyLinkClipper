@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const urlExtractInput = document.getElementById('elc-url-extract');
   const colorInputs = document.querySelectorAll('input[name="elc-button-color"]');
   // 設定を復元
-  chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\d+)', elcButtonColor: 'default' }, (items) => {
+  chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\\d+)', elcButtonColor: 'default' }, (items) => {
     toggleLink.checked = items.elcShowLink;
     toggleTitleLink.checked = items.elcShowTitleLink;
     patternInput.value = items.elcShowPattern || '';
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       chrome.storage.sync.set({ elcButtonColor: input.value }, notifyContentScript);
     });
   });
-  
+
   // デフォルト設定リセット
   const resetButton = document.getElementById('elc-reset-defaults');
   resetButton.addEventListener('click', () => {
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         elcUrlExtract: '^(.+/articles/\\d+)',
         elcButtonColor: 'default'
       };
-      
+
       chrome.storage.sync.set(defaultSettings, () => {
         // UIを更新
         toggleLink.checked = defaultSettings.elcShowLink;
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         patternInput.value = defaultSettings.elcShowPattern;
         urlExtractInput.value = defaultSettings.elcUrlExtract;
         document.getElementById('elc-color-default').checked = true;
-        
+
         // コンテンツスクリプトに通知
         notifyContentScript();
       });
