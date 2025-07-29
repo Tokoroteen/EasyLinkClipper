@@ -45,6 +45,7 @@
 
   function removeButtons() {
     document.querySelectorAll('.elc-copy-btn').forEach(btn => btn.remove());
+    document.querySelectorAll('.elc-button-container').forEach(container => container.remove());
     inserted = false;
   }
 
@@ -111,17 +112,24 @@
     if (inserted) return;
     const titleEl = findTitleElement();
     if (!titleEl) return;
-    if (titleEl.querySelector('.elc-copy-btn')) return;
+    if (titleEl.querySelector('.elc-button-container')) return;
 
     const url = processUrl(location.href);
     const title = titleEl.textContent.trim();
+
+    // ボタンコンテナを作成
+    const buttonContainer = document.createElement('span');
+    buttonContainer.className = 'elc-button-container';
+    buttonContainer.style.cssText = 'display: inline-flex !important; align-items: center !important; gap: 4px !important; margin-left: 8px !important;';
 
     if (elcShowLink) {
       const btnLink = createButton('Copy link', async () => {
         await navigator.clipboard.writeText(url);
         showToast(url);
       });
-      titleEl.appendChild(btnLink);
+      // margin-leftを削除（コンテナで管理）
+      btnLink.style.marginLeft = '0 !important';
+      buttonContainer.appendChild(btnLink);
     }
     if (elcShowTitleLink) {
       const btnTitleLink = createButton('Copy title & link', async () => {
@@ -129,8 +137,12 @@
         await navigator.clipboard.writeText(text);
         showToast(text);
       });
-      titleEl.appendChild(btnTitleLink);
+      // margin-leftを削除（コンテナで管理）
+      btnTitleLink.style.marginLeft = '0 !important';
+      buttonContainer.appendChild(btnTitleLink);
     }
+
+    titleEl.appendChild(buttonContainer);
     inserted = true;
   }
 
