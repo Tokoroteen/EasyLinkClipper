@@ -4,6 +4,7 @@
   // タイトル候補のセレクタ
   const TITLE_SELECTORS = ['h1', '.page-title'];
   let inserted = false;
+  let elcShowTitle = false; // "Copy title"ボタン表示
   let elcShowLink = true; // "Copy link"ボタン表示
   let elcShowTitleLink = true; // "Copy title & link"ボタン表示
   let elcShowPattern = '';
@@ -13,6 +14,7 @@
   // storage変更時に反映
   chrome.storage && chrome.storage.onChanged && chrome.storage.onChanged.addListener((changes, area) => {
     if (area === 'sync') {
+      if (changes.elcShowTitle !== undefined) elcShowTitle = changes.elcShowTitle.newValue;
       if (changes.elcShowLink !== undefined) elcShowLink = changes.elcShowLink.newValue;
       if (changes.elcShowTitleLink !== undefined) elcShowTitleLink = changes.elcShowTitleLink.newValue;
       if (changes.elcShowPattern !== undefined) elcShowPattern = changes.elcShowPattern.newValue;
@@ -29,7 +31,8 @@
       if (msg && msg.type === 'elc-setting-changed') {
         // 設定を再取得して反映
         if (chrome.storage && chrome.storage.sync) {
-          chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\\d+)', elcButtonColor: 'default' }, (items) => {
+          chrome.storage.sync.get({ elcShowTitle: false, elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\\d+)', elcButtonColor: 'default' }, (items) => {
+            elcShowTitle = items.elcShowTitle;
             elcShowLink = items.elcShowLink;
             elcShowTitleLink = items.elcShowTitleLink;
             elcShowPattern = items.elcShowPattern || '';
@@ -97,7 +100,7 @@
   }
 
   function shouldShowButtons() {
-    if (!(elcShowLink || elcShowTitleLink)) return false;
+    if (!(elcShowTitle || elcShowLink || elcShowTitleLink)) return false;
     if (!elcShowPattern) return true;
     try {
       return new RegExp(elcShowPattern).test(location.href);
@@ -122,6 +125,15 @@
     buttonContainer.className = 'elc-button-container';
     buttonContainer.style.cssText = 'display: inline-flex !important; align-items: center !important; gap: 4px !important; margin-left: 8px !important;';
 
+    if (elcShowTitle) {
+      const btnTitle = createButton('Copy title', async () => {
+        await navigator.clipboard.writeText(title);
+        showToast(title);
+      });
+      // margin-leftを削除（コンテナで管理）
+      btnTitle.style.marginLeft = '0 !important';
+      buttonContainer.appendChild(btnTitle);
+    }
     if (elcShowLink) {
       const btnLink = createButton('Copy link', async () => {
         await navigator.clipboard.writeText(url);
@@ -149,7 +161,8 @@
   // 初期設定取得→ボタン挿入
   function init() {
     if (chrome.storage && chrome.storage.sync) {
-      chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\\d+)', elcButtonColor: 'default' }, (items) => {
+      chrome.storage.sync.get({ elcShowTitle: false, elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\\d+)', elcButtonColor: 'default' }, (items) => {
+        elcShowTitle = items.elcShowTitle;
         elcShowLink = items.elcShowLink;
         elcShowTitleLink = items.elcShowTitleLink;
         elcShowPattern = items.elcShowPattern || '';

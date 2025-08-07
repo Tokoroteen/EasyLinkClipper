@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const toggleTitle = document.getElementById('elc-toggle-title');
   const toggleLink = document.getElementById('elc-toggle-link');
   const toggleTitleLink = document.getElementById('elc-toggle-titlelink');
   const patternInput = document.getElementById('elc-show-pattern');
   const urlExtractInput = document.getElementById('elc-url-extract');
   const colorInputs = document.querySelectorAll('input[name="elc-button-color"]');
   // 設定を復元
-  chrome.storage.sync.get({ elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\\d+)', elcButtonColor: 'default' }, (items) => {
+  chrome.storage.sync.get({ elcShowTitle: false, elcShowLink: true, elcShowTitleLink: true, elcShowPattern: 'articles', elcUrlExtract: '^(.+/articles/\\d+)', elcButtonColor: 'default' }, (items) => {
+    toggleTitle.checked = items.elcShowTitle;
     toggleLink.checked = items.elcShowLink;
     toggleTitleLink.checked = items.elcShowTitleLink;
     patternInput.value = items.elcShowPattern || '';
@@ -27,6 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  toggleTitle.addEventListener('change', () => {
+    chrome.storage.sync.set({ elcShowTitle: toggleTitle.checked }, notifyContentScript);
+  });
   toggleLink.addEventListener('change', () => {
     chrome.storage.sync.set({ elcShowLink: toggleLink.checked }, notifyContentScript);
   });
@@ -51,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   resetButton.addEventListener('click', () => {
     if (confirm('Reset all settings to default values. Are you sure?')) {
       const defaultSettings = {
+        elcShowTitle: false,
         elcShowLink: true,
         elcShowTitleLink: true,
         elcShowPattern: 'articles',
@@ -60,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       chrome.storage.sync.set(defaultSettings, () => {
         // UIを更新
+        toggleTitle.checked = defaultSettings.elcShowTitle;
         toggleLink.checked = defaultSettings.elcShowLink;
         toggleTitleLink.checked = defaultSettings.elcShowTitleLink;
         patternInput.value = defaultSettings.elcShowPattern;
